@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Rincón Artesanal 🇵🇦</title>
+    <style>
+        :root {
+            --primary-color: #975627;
+            --secondary-color: #D2691E;
+            --accent-color: #CD853F;
+            --gold-color: #FFD700;
+            --cream-color: #FAEBD7;
+            --dark-brown: #654321;
+            --text-color: #5D4037;
+            --light-bg: #b66e1d;
+            --danger-color: #dc3545;
+            --success-color: #28a745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--cream-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            line-height: 1.6;
+            background-image: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.05) 100%),
+                radial-gradient(circle at top left, var(--light-bg), var(--cream-color));
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, var(--cream-color) 0%, var(--accent-color) 100%);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            border: 5px solid var(--secondary-color);
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: repeating-linear-gradient(
+                45deg, 
+                rgba(255, 255, 255, 0.05), 
+                rgba(255, 255, 255, 0.05) 5px, 
+                transparent 5px, 
+                transparent 10px
+            );
+            opacity: 0.5;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .login-card h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 5px;
+            font-family: 'Georgia', serif;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .login-card p {
+            color: var(--dark-brown);
+            margin-bottom: 30px;
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+            z-index: 2;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark-brown);
+            padding-left: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            background-color: white;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 5px rgba(210, 105, 30, 0.5);
+            outline: none;
+        }
+
+        .btn-access {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 15px;
+            background: linear-gradient(90deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            border: 2px solid var(--gold-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-access:hover {
+            background: linear-gradient(90deg, var(--accent-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 8px 20px rgba(210, 105, 30, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-access:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .link-text {
+            margin-top: 20px;
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .link-text a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .link-text a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        #login-message {
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: none;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .msg-success {
+            color: var(--success-color);
+            background: #EBFFF0;
+            border: 1px solid var(--success-color);
+        }
+
+        .msg-error {
+            color: var(--danger-color);
+            background: #FFEBEB;
+            border: 1px solid var(--danger-color);
+        }
+
+        .msg-warning {
+            color: #856404;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+        }
+
+        .security-notice {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2>Bienvenido Al Portal Artesanal</h2>
+        <p>Inicia sesión para acceder a tu panel y tienda.</p>
+        
+        <div id="login-message"></div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="login-identifier">Correo Electrónico o Nombre de Usuario</label>
+                <input type="text" id="login-identifier" name="identifier" required 
+                       placeholder="Ingresa tu correo o nombre de usuario"
+                       autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="login-password">Contraseña</label>
+                <input type="password" id="login-password" name="password" required 
+                       placeholder="**************"
+                       autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn-access" id="submit-btn">
+                Acceder al Rincón 🗝️
+            </button>
+        </form>
+
+        <div class="security-notice">
+            🔒 Conexión segura - Tus credenciales están protegidas
+        </div>
+
+        <div class="link-text">
+            ¿Aún no tienes cuenta? <a href="registro.html">Regístrate aquí</a>
+        </div>
+    </div>
+    
+    <script>
+        class LoginManager {
+            constructor() {
+                this.attempts = JSON.parse(localStorage.getItem('loginAttempts') || '{}');
+                this.MAX_ATTEMPTS = 5;
+                this.LOCKOUT_TIME = 15 * 60 * 1000; // 15 minutos
+                
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.checkExistingLock();
+            }
+
+            setupEventListeners() {
+                const loginForm = document.getElementById('login-form');
+                const submitBtn = document.getElementById('submit-btn');
+
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    await this.handleLogin();
+                });
+
+                // Prevenir múltiples envíos rápidos
+                loginForm.addEventListener('submit', () => {
+                    submitBtn.disabled = true;
+                    setTimeout(() => submitBtn.disabled = false, 2000);
+                });
+            }
+
+            checkExistingLock() {
+                const identifier = document.getElementById('login-identifier').value;
+                if (this.isLockedOut(identifier)) {
+                    this.showMessage('🔒 Demasiados intentos fallidos. Espere 15 minutos.', 'error');
+                    document.getElementById('submit-btn').disabled = true;
+                }
+            }
+
+            isLockedOut(identifier) {
+                const attempt = this.attempts[identifier];
+                if (!attempt) return false;
+
+                const timeElapsed = Date.now() - attempt.lastAttempt;
+                return attempt.count >= this.MAX_ATTEMPTS && timeElapsed < this.LOCKOUT_TIME;
+            }
+
+            recordAttempt(identifier, success) {
+                if (!this.attempts[identifier]) {
+                    this.attempts[identifier] = { count: 0, lastAttempt: 0 };
+                }
+
+                if (success) {
+                    this.attempts[identifier].count = 0;
+                } else {
+                    this.attempts[identifier].count++;
+                    this.attempts[identifier].lastAttempt = Date.now();
+                }
+
+                localStorage.setItem('loginAttempts', JSON.stringify(this.attempts));
+            }
+
+            getRemainingTime(identifier) {
+                const attempt = this.attempts[identifier];
+                if (!attempt) return 0;
+
+                const timeElapsed = Date.now() - attempt.lastAttempt;
+                return Math.ceil((this.LOCKOUT_TIME - timeElapsed) / 60000); // minutos restantes
+            }
+
+            showMessage(message, type = 'success') {
+                const messageDiv = document.getElementById('login-message');
+                messageDiv.textContent = message;
+                messageDiv.style.display = 'block';
+                messageDiv.className = `msg-${type}`;
+            }
+
+            async handleLogin() {
+                const identifier = document.getElementById('login-identifier').value.trim();
+                const password = document.getElementById('login-password').value;
+                const submitBtn = document.getElementById('submit-btn');
+
+                // Validación básica
+                if (!identifier || !password) {
+                    this.showMessage('❌ Por favor completa todos los campos', 'error');
+                    return;
+                }
+
+                // Verificar bloqueo
+                if (this.isLockedOut(identifier)) {
+                    const remaining = this.getRemainingTime(identifier);
+                    this.showMessage(`🔒 Demasiados intentos. Espere ${remaining} minutos.`, 'error');
+                    return;
+                }
+
+                this.showMessage('🔐 Verificando credenciales...', 'warning');
+
+                try {
+                    const response = await fetch('http://localhost/RINCONARTESANAL/login.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ 
+                            identifier: identifier, 
+                            password: password 
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        this.recordAttempt(identifier, true);
+                        this.showMessage('✅ Inicio de sesión exitoso. Redirigiendo...', 'success');
+                        
+                        // Guardar sesión
+                        localStorage.setItem('currentUser', JSON.stringify(result.user));
+                        
+                        // Redirigir
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 1500);
+
+                    } else {
+                        this.recordAttempt(identifier, false);
+                        
+                        if (response.status === 429) {
+                            const remaining = this.getRemainingTime(identifier);
+                            this.showMessage(`🔒 ${result.message} (${remaining} minutos restantes)`, 'error');
+                        } else {
+                            this.showMessage(`❌ ${result.message}`, 'error');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error de red:', error);
+                    this.showMessage('⚠️ Error de conexión. Verifica tu conexión a internet.', 'error');
+                } finally {
+                    submitBtn.disabled = false;
+                }
+            }
+        }
+
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            window.loginManager = new LoginManager();
+        });
+    </script>
+</body>
+</html>

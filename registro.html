@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro | El Rincón Artesanal Panameño</title>
+    <style>
+        :root {
+            --primary-color: #C8102E;
+            --secondary-color: #002D62;
+            --accent-color: #FFD700;
+            --cream-color: #FFFFFF;
+            --text-color: #333;
+            --light-bg: #457db1;
+            --shadow-color: rgba(23, 91, 218, 0.438);
+            --weak-color: #ff4444;
+            --medium-color: #ffaa00;
+            --strong-color: #00c851;
+        }
+
+        body {
+            font-family: 'Georgia', serif; 
+            background: linear-gradient(135deg, var(--light-bg), var(--cream-color));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background: var(--cream-color);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            border: 3px solid var(--accent-color);
+        }
+
+        .auth-container h2 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .logo-text {
+            font-size: 1em;
+            color: var(--text-color);
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+
+        .password-strength {
+            margin-top: 8px;
+            font-size: 0.85em;
+        }
+
+        .strength-bar {
+            height: 5px;
+            border-radius: 3px;
+            margin-top: 5px;
+            background-color: #eee;
+            overflow: hidden;
+        }
+
+        .strength-bar-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        .strength-text {
+            font-size: 0.8em;
+            margin-top: 3px;
+            font-weight: bold;
+        }
+
+        .password-requirements {
+            margin-top: 8px;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3px;
+        }
+
+        .requirement.valid {
+            color: var(--strong-color);
+        }
+
+        .requirement.invalid {
+            color: var(--weak-color);
+        }
+
+        .requirement-icon {
+            margin-right: 5px;
+            font-size: 0.9em;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .link-switch {
+            margin-top: 20px;
+            color: var(--text-color);
+        }
+
+        .link-switch a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .message-box {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none;
+        }
+        .message-box.error {
+            background-color: #fdd;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        .message-box.success {
+            background-color: #dfd;
+            color: #28a745;
+            border: 1px solid #28a745;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-container">
+    <h2>Crear Cuenta Artesanal</h2>
+    <p class="logo-text">✨ Únete a la comunidad de El Rincón Panameño</p>
+    
+    <div id="response-message" class="message-box"></div>
+
+    <form id="register-form">
+        <div class="form-group">
+            <label for="reg-name">Nombre</label>
+            <input type="text" id="reg-name" required placeholder="Ej: María">
+        </div>
+
+        <div class="form-group">
+            <label for="reg-lastname">Apellido</label>
+            <input type="text" id="reg-lastname" required placeholder="Ej: La Artesana">
+        </div>
+
+        <div class="form-group">
+            <label for="reg-username">Nombre de Usuario</label>
+            <input type="text" id="reg-username" required placeholder="Ej: artesana_maria">
+        </div>
+        
+        <div class="form-group">
+            <label for="reg-email">Correo Electrónico</label>
+            <input type="email" id="reg-email" required placeholder="tu.correo@ejemplo.com">
+        </div>
+
+        <div class="form-group">
+            <label for="reg-password">Contraseña</label>
+            <input type="password" id="reg-password" required placeholder="Mínimo 8 caracteres" minlength="8">
+            
+            <div class="password-strength">
+                <div class="strength-bar">
+                    <div class="strength-bar-fill" id="strength-bar"></div>
+                </div>
+                <div class="strength-text" id="strength-text">Introduce una contraseña</div>
+            </div>
+
+            <div class="password-requirements">
+                <div class="requirement invalid" id="req-length">
+                    <span class="requirement-icon">❌</span>
+                    Al menos 8 caracteres
+                </div>
+                <div class="requirement invalid" id="req-lowercase">
+                    <span class="requirement-icon">❌</span>
+                    Una letra minúscula
+                </div>
+                <div class="requirement invalid" id="req-uppercase">
+                    <span class="requirement-icon">❌</span>
+                    Una letra mayúscula
+                </div>
+                <div class="requirement invalid" id="req-number">
+                    <span class="requirement-icon">❌</span>
+                    Un número
+                </div>
+                <div class="requirement invalid" id="req-special">
+                    <span class="requirement-icon">❌</span>
+                    Un carácter especial (@$!%*?&)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="user-type">Quiero ser...</label>
+            <select id="user-type" required>
+                <option value="">Selecciona tu rol...</option>
+                <option value="comprador">Comprador (Admirador de la artesanía)</option>
+                <option value="vendedor">Vendedor (Maestro artesano)</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-btn">Registrarme</button>
+    </form>
+
+    <div class="link-switch">
+        ¿Ya tienes cuenta? <a href="login.html">Inicia Sesión aquí</a>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'https://rincon-artesanal.rf.gd/registro.php';
+
+    function displayMessage(message, type) {
+        const msgBox = document.getElementById('response-message');
+        msgBox.textContent = message;
+        msgBox.className = `message-box ${type}`;
+        msgBox.style.display = 'block';
+    }
+
+    function checkPasswordStrength(password) {
+        let strength = 0;
+        const requirements = {
+            length: password.length >= 8,
+            lowercase: /[a-z]/.test(password),
+            uppercase: /[A-Z]/.test(password),
+            number: /[0-9]/.test(password),
+            special: /[@$!%*?&]/.test(password)
+        };
+
+        if (requirements.length) strength += 20;
+        if (requirements.lowercase) strength += 20;
+        if (requirements.uppercase) strength += 20;
+        if (requirements.number) strength += 20;
+        if (requirements.special) strength += 20;
+
+        updateRequirementsUI(requirements);
+        return { strength, requirements };
+    }
+
+    function updateRequirementsUI(requirements) {
+        const reqIds = {
+            length: 'req-length',
+            lowercase: 'req-lowercase',
+            uppercase: 'req-uppercase',
+            number: 'req-number',
+            special: 'req-special'
+        };
+
+        for (const [key, isValid] of Object.entries(requirements)) {
+            const element = document.getElementById(reqIds[key]);
+            if (element) {
+                element.className = `requirement ${isValid ? 'valid' : 'invalid'}`;
+                element.querySelector('.requirement-icon').textContent = isValid ? '✅' : '❌';
+            }
+        }
+    }
+
+    function updateStrengthBar(strength) {
+        const bar = document.getElementById('strength-bar');
+        const text = document.getElementById('strength-text');
+        
+        bar.style.width = `${strength}%`;
+        
+        if (strength === 0) {
+            bar.style.backgroundColor = 'transparent';
+            text.textContent = 'Introduce una contraseña';
+        } else if (strength <= 40) {
+            bar.style.backgroundColor = 'var(--weak-color)';
+            text.textContent = 'Muy débil';
+        } else if (strength <= 60) {
+            bar.style.backgroundColor = 'var(--weak-color)';
+            text.textContent = 'Débil';
+        } else if (strength <= 80) {
+            bar.style.backgroundColor = 'var(--medium-color)';
+            text.textContent = 'Moderada';
+        } else {
+            bar.style.backgroundColor = 'var(--strong-color)';
+            text.textContent = 'Fuerte';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const registerForm = document.getElementById('register-form');
+        const passwordInput = document.getElementById('reg-password');
+        const submitBtn = document.getElementById('submit-btn');
+
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            const strengthInfo = checkPasswordStrength(password);
+            updateStrengthBar(strengthInfo.strength);
+            submitBtn.disabled = strengthInfo.strength < 60;
+        });
+
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            displayMessage('', '');
+            
+            const name = document.getElementById('reg-name').value.trim();
+            const lastname = document.getElementById('reg-lastname').value.trim();
+            const username = document.getElementById('reg-username').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const userType = document.getElementById('user-type').value;
+
+            const strengthInfo = checkPasswordStrength(password);
+            if (strengthInfo.strength < 60) {
+                displayMessage('❌ La contraseña es demasiado débil', 'error');
+                return;
+            }
+
+            if (!name || !lastname || !username || !email || !password || !userType) {
+                displayMessage('❌ Completa todos los campos', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Registrando...';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        lastname: lastname,
+                        username: username,
+                        email: email,
+                        password: password,
+                        type: userType
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    displayMessage('🎉 ¡Registro exitoso! Redirigiendo...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    displayMessage(`❌ ${result.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                displayMessage('❌ Error de conexión', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Registrarme';
+            }
+        });
+    });
+</script>
+</body>
+</html>
